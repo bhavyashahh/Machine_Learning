@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html>
+
+<style type="text/css">
+body
+{
+    font-family: Arial;
+    font-size: 10pt;
+}
+#dvPreview
+{
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=image);
+    min-height: 400px;
+    min-width: 400px;
+    display: none;
+}
+#fileupload,#dvPreview{
+  float:left;
+}
+#opt,#fileupload{
+float:left;
+}
+</style>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+<script language="javascript" type="text/javascript">
+$(function () {
+    $("#fileupload").change(function () {
+        $("#dvPreview").html("");
+        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
+        if (regex.test($(this).val().toLowerCase())) {
+            if ($.browser.msie && parseFloat(jQuery.browser.version) <= 9.0) {
+                $("#dvPreview").show();
+                $("#dvPreview")[0].filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = $(this).val();
+            }
+            else {
+                if (typeof (FileReader) != "undefined") {
+                    $("#dvPreview").show();
+                    $("#dvPreview").append("<img />");
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $("#dvPreview img").attr("src", e.target.result);
+                    }
+                    reader.readAsDataURL($(this)[0].files[0]);
+                } else {
+                    alert("This browser does not support FileReader.");
+                }
+            }
+        } else {
+            alert("Please upload a valid image file.");
+        }
+    });
+});
+
+</script>
+</head>
+<title> UserInterface </title>
+<body>
+<h3> Team Arrow </h3>
+<div>
+<input id="fileupload" type="file" />
+<hr /></br>
+<b> Captured Image</b>
+<br />
+<br />
+<div id="dvPreview">
+</div>
+
+
+
+
+
+
+<input type=button onClick="parent.location='/home/bhavya/Desktop/html/emergent.html'" value='Emergent'>
+<input type=button onClick="parent.location='/home/bhavya/Desktop/html/alphanumeric.html'" value='AlphaNumeric'>
+</select>
+
+
+</div></form>
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+<style type="text/css">
+body
+{
+    font-family: Arial;
+    font-size: 10pt;
+}
+#dvPreview
+{
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=image);
+    min-height: 400px;
+    min-width: 400px;
+    display: none;
+}
+#fileupload,#dvPreview{
+  float:left;
+}
+#opt,#fileupload{
+float:left;
+}
+
+body {
+  margin: 2em auto;
+  max-width: 600px;
+}
+
+form div {
+    margin-bottom: 0.5em;
+}
+form div label, form div input {
+    display: block;
+    margin-bottom: 0.3em;
+}
+
+</style>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+<script language="javascript" type="text/javascript">
+$(function () {
+    $("#fileupload").change(function () {
+        $("#dvPreview").html("");
+        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
+        if (regex.test($(this).val().toLowerCase())) {
+            if ($.browser.msie && parseFloat(jQuery.browser.version) <= 9.0) {
+                $("#dvPreview").show();
+                $("#dvPreview")[0].filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = $(this).val();
+            }
+            else {
+                if (typeof (FileReader) != "undefined") {
+                    $("#dvPreview").show();
+                    $("#dvPreview").append("<img />");
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $("#dvPreview img").attr("src", e.target.result);
+                    }
+                    reader.readAsDataURL($(this)[0].files[0]);
+                } else {
+                    alert("This browser does not support FileReader.");
+                }
+            }
+        } else {
+            alert("Please upload a valid image file.");
+        }
+    });
+});
+
+
+(function() {
+	function toJSONString( form ) {
+		var obj = {};
+		var elements = form.querySelectorAll( "input, select, textarea" );
+		for( var i = 0; i < elements.length; ++i ) {
+			var element = elements[i];
+			var name = element.name;
+			var value = element.value;
+
+			if( name ) {
+				obj[ name ] = value;
+			}
+		}
+
+		return JSON.stringify( obj );
+	}
+
+	document.addEventListener( "DOMContentLoaded", function() {
+		var form = document.getElementById( "test" );
+		var output = document.getElementById( "output" );
+		form.addEventListener( "submit", function( e ) {
+			e.preventDefault();
+			var json = toJSONString( this );
+			output.innerHTML = json;
+
+		}, false);
+
+	});
+
+})();
+
+
+
+</script>
+
+
+<title> ALPHANUMERIC </title>
+
+
+<head> <h1>Classification </h1> </head>
+<body>
+<div>
+<input id="fileupload" type="file" />
+<hr /></br>
+<b> Captured Image</b>
+<br />
+<br />
+<div id="dvPreview">
+</div>
+
+
+
+
+
+<form id="test" action="#" method="post">
+    <div class="form-group">
+        <label for="name">Object Shape</label>
+        <input class="form-control" type="text" name="Object Shape" id="name" />
+    </div>
+    
+    <div class="form-group">
+    
+   <div class="form-group">
+        <label for="name">Shape Colour</label>
+        <input class="form-control" type="text" name="Shape Colour" id="name" />
+    </div>
+    
+    <div class="form-group">
+    
+	   <div class="form-group">
+        <label for="name">Alphanumeric</label>
+        <input class="form-control" type="text" name="Alphanumeric" id="name" />
+    </div>
+    
+    <div class="form-group">
+    
+	
+	   <div class="form-group">
+        <label for="name">Alphanumeric Colour</label>
+        <input class="form-control" type="text" name="Alphanumeric Colour" id="name" />
+    </div>
+    
+    <div class="form-group">
+    
+	
+	   <div class="form-group">
+        <label for="name">Latitude</label>
+        <input class="form-control" type="text" name="Latitude" id="name" />
+    </div>
+    
+    <div class="form-group">
+    
+	   <div class="form-group">
+        <label for="name">Longitude</label>
+        <input class="form-control" type="text" name="Longitude" id="name" />
+    </div>
+    
+    <div class="form-group">
+    
+	
+	
+    </div>
+    
+    <<p>
+        <input type="submit" value="Create JSON" class="btn btn-primary btn-block" />
+    </p>
+</form>	
+<pre id="output"></pre>
+
+
+
+
+
+</body>
+</html>
+
+
+
